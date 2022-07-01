@@ -1,21 +1,74 @@
-# The Radical of the Group Algebra {#intro}
+# The Number of Simple $A$-modules {#simples}
 
-You can label chapter and section titles using `{#label}` after them, e.g., we can reference Chapter \@ref(intro). If you do not manually label them, there will be automatic labels anyway, e.g., Chapter \@ref(methods).
+In this chapter we will assume $K$ to be an algebraically closed field, of possibly positive characteristic, and $G$ to be any finite group.
+Following the lectures of [Raghavan](https://www.imsc.res.in/~knr/past/AIS2022_cmi/index.html), we will denote the group algebra of $G$ over $K$ by $KG$.
 
-Figures and tables with captions will be placed in `figure` and `table` environments, respectively.
+:::{.exercise}
+Show that Maschke's theorem fails whenever $\mathrm{char}K$ divides the order of $G$.
+To be precise, exhibit a $KG$-module along with a submodule that does not admit a $KG$-invariant complement.
+:::
+:::{.proposition #comm}
+Let $A$ be a finite dimensional $K$-algebra, where $K$ is an algebraically closed field of characteristic $p>0$.
+For $a,b\in A$, let $[a,b]$ denote the commutator $ab-ba$.
+Let
+$$
+S = \mathrm{span}\{[a,b]\mid a,b\in A\}.
+$$
+and let
+$$
+T = \{a\in A\mid a^q\in S \text{ for some power } q \text{ of }p\}.
+$$
+Then $T$ is a subspace of $A$, and the number of isomorphism classes of simple $A$-modules is $\dim_K(A/T)$.
+:::
+:::{.exercise}
+For $A = M_n(K)$ show that $S$ as defined in Proposition \@ref(prp:comm) consists of matrices with trace zero.
+:::
+:::{.exercise}
+For $A=M_n(K)$ show that $\dim_K A/T=1$.
+:::
+To prove Proposition \@ref(prp:comm), we need the following:
 
-```{r nice-fig, fig.cap='Here is a nice figure!', out.width='80%', fig.asp=.75, fig.align='center'}
-par(mar = c(4, 4, .1, .1))
-plot(pressure, type = 'b', pch = 19)
-```
+:::{.lemma #binom}
+If $K$ is a field of characteristic $P$ and $A$ is any $K$-algebra, then
+$$
+(a+b)^p = a^p + b^p
+$$
+in $A/S$, where $S=\mathrm{span}\{ab-ba\mid a,b\in A\}$.
+:::
+:::{.proof}
+Observe that
+$$
+e_1e_2\dotsb e_p = e_2\dotsb e_pe_1 + [e_1,e_2\dotsb e_p] \equiv e_2\dotsb e_pe_1 \mod S,
+$$
+In other words, cyclical rearrangements of a product are congruent to it modulo $S$.
 
-Reference a figure by its code chunk label with the `fig:` prefix, e.g., see Figure \@ref(fig:nice-fig). Similarly, you can reference tables generated from `knitr::kable()`, e.g., see Table \@ref(tab:nice-tab).
+Every term in the non-commutative product
+$$
+(a+b)^n = \sum_{(e_1,\dotsc,e_p)\in \{a,b\}^p} e_1e_2\dotsb e_p.
+$$
+except for $a^b$ or $b^p$ lies in a unique cyclical rearrangement class of order $p$, i.e., it fits into a unique group of $p$ terms of the form
+$$
+e_1e_2\dotsb e_p + e_2\dotsb e_pe_1 + \dotsb + e_pe_1\dotsb e_{p-1}.
+$$
+Since these $p$ terms are congruent modulo $S$, their sum lies in $S$, leaving only the terms $a^p+b^p$.
+:::
+:::{.proof name="of the proposition"}
+By Lemma \@ref(lem:binom), $T$ is closed under addition.
+Clearly, $T$ is closed under scalar multiplication, so $T$ is a linear subspace of $A$.
+We claim that $S\subset T$.
+Indeed, by Lemma \@ref(lem:binom)
+$$
+[a,b]^p \equiv (ab)^p-(ba)^p \mod p.
+$$
+Setting $c=b(ab)^{p-1}$, we have $(ab)^p-(ba)^p=ac-ca$.
+Therefore,
+$$
+[a,b]^p \equiv [a,c] \mod S.
+$$
+It follows that the $p$th power of an element of $S$ is again in $S$.
+Therefore $S\subset T$.
 
-```{r nice-tab, tidy=FALSE}
-knitr::kable(
-  head(iris, 20), caption = 'Here is a nice table!',
-  booktabs = TRUE
-)
-```
+Since every nilpotent element of $A$ lies in $T$, $\mathrm{rad}(A)\subset T$.
+Therefore $\dim_K A/T = \dim_K (A/\mathrm{rad}(A))/(T/\mathrm{rad}(A))$.
 
-You can write citations, too. For example, we are using the **bookdown** package [@R-bookdown] in this sample book, which was built on top of R Markdown and **knitr** [@xie2015].
+:::
